@@ -1,0 +1,36 @@
+{
+  "name": "LoLiT",
+  "authors": [
+    "Adrien Girardeau <adrigir25@gmail.com>"
+  ],
+  "description": "Visualize statistics about League of Legends",
+  "main": "",
+  "moduleType": [],
+  "dependencies": {
+    "angular-bootstrap": "~1.1.0",
+    "angular-moment": "~0.10.3",
+    "angular-route": "~1.4.9",
+    "angular": "1.4.9",
+    "angular-mocks": "~1.4.9",
+    "jquery": "~2.2.0",
+    "bootstrap": "~3.3.6"
+  },
+  "keywords": [
+    "LoL",
+    "League",
+    "of",
+    "Legends",
+    "Statistics",
+    "ENSIIE"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
