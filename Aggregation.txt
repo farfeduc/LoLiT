@@ -1,0 +1,5 @@
+db.data.aggregate([
+	{ $match: { participants: { $elemMatch: {championId: 96} } } },
+	{ $group: { _id: "$matchId", total: { $sum: { $divide: ["$mapId", 11]} } } },
+	{ $out: "results"}
+])
