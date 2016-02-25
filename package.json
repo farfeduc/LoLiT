@@ -49,7 +49,8 @@
     "rimraf": "^2.5.1",
     "run-sequence": "^1.1.5",
     "sails": "~0.12.0",
-    "sails-disk": "~0.10.9"
+    "sails-disk": "~0.10.9",
+    "sails-mongo": "~0.12.0"
   },
   "scripts": {
     "debug": "node debug app.js",

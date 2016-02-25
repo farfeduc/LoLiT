@@ -34,7 +34,12 @@ module.exports.routes = {
 
   '/': {
     view: 'homepage'
-  }
+  },
+
+  '/data' : {
+        controller: 'data',
+        action: 'GetDataList'
+    }
 
   /***************************************************************************
   *                                                                          *
