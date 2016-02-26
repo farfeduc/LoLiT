@@ -4,26 +4,24 @@ db.data.aggregate([
 	{ $out: "results"}
 ])
 
-db.data.aggregate([
-	{ $match: { participants: { $elemMatch: {championId: 96} } } },
-	{ $group: { _id: "$participants.championId", total: { $sum: { $divide: ["$mapId", 11]} } } },
-	{ $out: "results"}
-])
 
 // Commande Fonctionelle
-db.data.aggregate([ 
+db.data.aggregate([
 	{ $match: { participants: { $elemMatch: {championId: 96} } } },
-	{ $project: { _id:0, participants: 1, matchId: 1, mapId: 1, region: 1} },
+	{ $project: { _id:0, participants: 1, matchId: 1} },
 	{ $unwind: "$participants" },
 	{ $match: { "participants.championId": 96 } },
-	{ $project: { _id:0, matchId: 1, mapId: 1, region: 1} },
-	//{ $group: { _id: "$matchId", total: { $sum: { $divide: ["$mapId", 11]} } } },
+	{ $project: { _id:0, matchId: 1} },
+	{ $group: { _id: "$matchId", total: { $sum:1 } } },
 	{ $out: "results"}
 ])
 
-db.data.aggregate([ 
-	{ $match: { "matchId": 2054994354 } },
-	{ $project: { _id:0, participants: 1, matchId: 1} },
+
+//Aggregation pour les statistiques par champion classé par utilisations decroissantes
+db.data.aggregate([
+	{ $project: { _id: 0, participants: 1} },
 	{ $unwind: "$participants" },
-	{ $out: "results"}
+	{ $group: { _id: "$participants.championId", total: { $sum:1 } } },
+	{ $sort: { total: -1 } },
+	{ $out: "ChampionPick" }
 ])
