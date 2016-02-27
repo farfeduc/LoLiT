@@ -17,11 +17,27 @@ db.data.aggregate([
 ])
 
 
-//Aggregation pour les statistiques par champion classé par utilisations decroissantes
+//Aggregation : Statistiques des picks de champions classé : decroissante
 db.data.aggregate([
-	{ $project: { _id: 0, participants: 1} },
+	{ $project: { _id: 0, participants: 1 } },
 	{ $unwind: "$participants" },
 	{ $group: { _id: "$participants.championId", total: { $sum:1 } } },
 	{ $sort: { total: -1 } },
 	{ $out: "ChampionPick" }
+])
+
+db.ChampionPick.aggregate([
+	{ $group: { _id: '', total: { $sum: "$total" } } },
+	{ $project: { _id: 0, total: '$total' } },
+	{ $out: "results" }
+])
+
+//Aggregation pour 
+db.data.aggregate([
+	{ $project: { _id: 0, participants: 1} },
+	{ $unwind: "$participants" },
+	{ $group: { _id: "$participants.championId", total: { $sum: 1 }, totalWin: { $sum: { $cond: { if: "$participants.stats.winner", then: 1, else: 0 } } } } },
+	{ $project: { _id: 1, total: 1, pourcentageDeWin: { $divide: [ "$totalWin", "$total"] } } },
+	{ $sort: { pourcentageDeWin: -1 } },
+	{ $out: "PourcentageDeWin" }
 ])
