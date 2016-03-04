@@ -16,6 +16,7 @@
 //  to change `assets/styles/importer.less` instead.)
 var cssFilesToInject = [
   'bower_components/bootswatch/dist/css/bootstrap.css',
+  'bower_components/nvd3/nv.d3.css',
   'styles/**/*.css'
 ];
 
@@ -33,6 +34,9 @@ var jsFilesToInject = [
   '/bower_components/angular-route/angular-route.js',
   '/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
   '/bower_components/bootstrap/dist/js/boostrap.js',
+  'bower_components/d3/d3.js',
+  'bower_components/nvd3/nv.d3.js',
+  'bower_components/angular-nvd3/dist/angular-nvd3.js',
 
   // Dependencies like jQuery, or Angular are brought in here
   'js/dependencies/**/*.js',
