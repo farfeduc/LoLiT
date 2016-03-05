@@ -1,6 +1,6 @@
 'use strict';
 
-var LoLiT = angular.module('LoLiT', ['ngRoute', 'ui.bootstrap']);
+var LoLiT = angular.module('LoLiT', ['ngRoute', 'ui.bootstrap', 'nvd3']);
 // LoLiT.config(['$routeProvider',
 //   function($routeProvider) {
 //     $routeProvider.when('/', {
@@ -31,6 +31,12 @@ LoLiT.controller('LoLiTCtrl', ['$scope', '$rootScope', function($scope, $rootSco
   }, function(newSection){
   	console.log(newSection);
   });
+
+  /* Chart options */
+  $scope.options = { /* JSON data */ };
+
+  /* Chart data */
+  $scope.data = { /* JSON data */ }
 
 var dataController = Sails.controller.dataController;
 
