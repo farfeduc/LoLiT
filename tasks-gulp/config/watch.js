@@ -12,20 +12,17 @@
  */
 module.exports = function(gulp, plugins, growl) {
 	var server = plugins.livereload();
-	gulp.task('watch:api', function() {
-		// Watch Style files
-		return gulp.watch('api/**/*', ['syncAssets'])
-				.on('change', function(file) {
-					server.changed(file.path);
-				});
-	});
+
+gulp.task('watch:api', function() {
+	// Watch Style files
+	return gulp.watch('api/**/*', ['syncAssets'])
+			.on('change', server.changed);
+});
 	
 	gulp.task('watch:assets', function() {
 		// Watch assets
 		return gulp.watch(['assets/**/*', 'tasks/pipeline.js'], ['syncAssets'])
-				.on('change', function(file) {
-					server.changed(file.path);
-				});
+				.on('change', server.changed);
 	});
 
 };
