@@ -65,6 +65,8 @@ LoLiT.controller('LoLiTCtrl', ['$scope', '$rootScope', '$http', function($scope,
         ]
     }];
 
+
+    // API Management
     $http.get('/championpick/find').success(function(data) {
       for (var i = 0; i < data.length; i++) {
         data[i].index = i;
