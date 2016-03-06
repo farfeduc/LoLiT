@@ -1,3 +1,9 @@
+/**
+ * Championpick.js
+ *
+ * @description :: This model represents the total number of times each chamion as been picked
+ */
+
 module.exports = {
 
   tableName: 'ChampionPick',
@@ -13,3 +19,5 @@ module.exports = {
     }
   }
 };
+
+

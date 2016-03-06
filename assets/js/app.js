@@ -2,7 +2,7 @@
 
 var LoLiT = angular.module('LoLiT', ['ngRoute', 'ui.bootstrap', 'nvd3']);
 
-LoLiT.controller('LoLiTCtrl', ['$scope', '$rootScope', function($scope, $rootScope) {
+LoLiT.controller('LoLiTCtrl', ['$scope', '$rootScope', '$http', function($scope, $rootScope, $http) {
 
   $scope.sections = [
   	{id : 1, label: "Section 1"},
@@ -64,5 +64,12 @@ LoLiT.controller('LoLiTCtrl', ['$scope', '$rootScope', function($scope, $rootSco
         { "label" : "H" , "value" : -5.1387322875705 }
         ]
     }];
+
+    $http.get('/championpick/find').success(function(data) {
+      for (var i = 0; i < data.length; i++) {
+        data[i].index = i;
+      }
+      $scope.items = data;
+    });
 
 }]);
