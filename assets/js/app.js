@@ -72,4 +72,32 @@ LoLiT.controller('LoLiTCtrl', ['$scope', '$rootScope', '$http', function($scope,
       $scope.items = data;
     });
 
+    $http.get('/championban/find').success(function(data) {
+      for (var i = 0; i < data.length; i++) {
+        data[i].index = i;
+      }
+      $scope.items = data;
+    });
+
+    $http.get('/totalchampions/find').success(function(data) {
+      for (var i = 0; i < data.length; i++) {
+        data[i].index = i;
+      }
+      $scope.items = data;
+    });
+
+    $http.get('/totalchampionban/find').success(function(data) {
+      for (var i = 0; i < data.length; i++) {
+        data[i].index = i;
+      }
+      $scope.items = data;
+    });
+
+    $http.get('/winpercentage/find').success(function(data) {
+      for (var i = 0; i < data.length; i++) {
+        data[i].index = i;
+      }
+      $scope.items = data;
+    });
+
 }]);
