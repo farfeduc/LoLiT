@@ -44,7 +44,10 @@ LoLiT.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($s
     }
   }
 
-
+  Array.prototype.subarray = function(start,end) {
+    if (!end) {end = -1;}
+    return this.slice(start, this.length+1-(end*-1));
+  };
 
   $rootScope.sectionSelectionnee = 1;
 
@@ -103,25 +106,21 @@ LoLiT.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($s
   $scope.databans = []; //championpick data
   $scope.newdatabans = []; //pour ajouter le champ autres.
 
+  $scope.nbr_fields = 19;
 
   //Getting data of championpick to display
   $http({method : 'GET',url : 'http://localhost:1337/api/championpick/find'})
     .success(function(data, status) {
-        $scope.datapicks = data;
+        $scope.datapicks = data.subarray(0,$scope.nbr_fields-data.length);
         //Now we change id by names for championpick data
         for (var i = $scope.datapicks.length - 1; i >= 0; i--) {
           $scope.datapicks[i].id=getname($scope.datapicks[i].id);
         };
 
+        $scope.datapicks[$scope.nbr_fields] = {"total" : 0,"id" : "Autres"};
 
-        for (var j = 0; j <= 20; j++) {
-          $scope.newdatapicks[j] = $scope.datapicks[j];
-        };
-        
-        $scope.newdatapicks[21] = {"total" : 0,"id" : "Autres"};
-
-        for (var j = 21; j <= $scope.datapicks.length - 1; j++) {
-          $scope.newdatapicks[21].total += $scope.datapicks[j].total;
+        for (var j = $scope.nbr_fields; j <= data.length - 1; j++) {
+          $scope.datapicks[$scope.nbr_fields].total += data[j].total;
         };
   
 
@@ -142,14 +141,14 @@ LoLiT.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($s
         };
 
 
-        for (var j = 0; j <= 20; j++) {
+        for (var j = 0; j < $scope.nbr_fields; j++) {
           $scope.newdatabans[j] = $scope.databans[j];
         };
         
-        $scope.newdatabans[21] = {"total" : 0,"id" : "Autres"};
+        $scope.newdatabans[$scope.nbr_fields] = {"total" : 0,"id" : "Autres"};
 
-        for (var j = 21; j <= $scope.databans.length - 1; j++) {
-          $scope.newdatabans[21].total += $scope.databans[j].total;
+        for (var j = $scope.nbr_fields; j <= $scope.databans.length - 1; j++) {
+          $scope.newdatabans[$scope.nbr_fields].total += $scope.databans[j].total;
         };
   
 
