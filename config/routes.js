@@ -36,6 +36,18 @@ module.exports.routes = {
     view: 'homepage'
   },
 
+  '/partie1' : {
+    view: 'homepage'
+  },
+
+  '/partie2' : {
+    view: 'partie2'
+  },
+
+  '/partie3' : {
+    view: 'partie3'
+  },
+
   '/data' : {
         controller: 'data',
         action: 'GetDataList'

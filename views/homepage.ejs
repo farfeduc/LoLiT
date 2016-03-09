@@ -1,9 +1,7 @@
-<ul class = "nav nav-pills spacer clickable">
-    <li ng-click="selectionnerSection(1)" ng-class="{active : sectionSelectionnee == 1}"> <a href="#"> Partie 1 </a> </li>
-    <li ng-click="selectionnerSection(2)" ng-class="{active : sectionSelectionnee == 2}"> <a href="#"> Partie 2 </a> </li>
-  </ul>
+<div ng-controller='LoLiTCtrlPart1'>
   <div class="alert alert-info"> la section active est {{sectionSelectionnee}}.</div>
 
-<div ng-show="sectionSelectionnee == 1">  </div>
-
-<nvd3 options="optionspicks" data="datapicks"></nvd3>
+  <div style="background-color:rgba(1,1,1,0.2)" class="container" >
+    <nvd3 options="optionspicks" data="datapicks"></nvd3>
+  </div>
+</div>
