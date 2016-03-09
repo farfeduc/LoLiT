@@ -15,13 +15,17 @@
 
   </head>
 
-  <body ng-controller="LoLiTCtrl">
+  <body ng-controller="LoLiTCtrl" class="blueback" style="background-image:url(images/back2.jpg)">
   
-    <ul class = "nav nav-pills spacer clickable">
-      <li ng-click="selectionnerSection(1)" ng-class="{active : sectionSelectionnee == 1}"> <a href="/partie1"> Champions </a> </li>
-      <li ng-click="selectionnerSection(2)" ng-class="{active : sectionSelectionnee == 2}"> <a href="/partie2"> Profil moyen </a> </li>
-      <li ng-click="selectionnerSection(3)" ng-class="{active : sectionSelectionnee == 3}"> <a href="/partie3"> Histogrammes </a> </li>
-    </ul>
+  <div class="container nav363" >
+
+        <ul class = "nav nav-pills spacer clickable">
+          <li ng-click="selectionnerSection(1)" ng-class="{active : sectionSelectionnee == 1}"> <a href="/partie1"> Champions </a> </li>
+          <li ng-click="selectionnerSection(2)" ng-class="{active : sectionSelectionnee == 2}"> <a href="/partie2"> Profil moyen </a> </li>
+          <li ng-click="selectionnerSection(3)" ng-class="{active : sectionSelectionnee == 3}"> <a href="/partie3"> Histogrammes </a> </li>
+        </ul>
+
+  </div>
 
     <%- body %>
   
