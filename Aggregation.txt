@@ -59,3 +59,36 @@ db.ChampionBan.aggregate([
 	{ $project: { _id: 0, total: '$total' } },
 	{ $out: "totalChampionBan" }
 ])
+
+
+//Aggregation : Nombre de fois qu'une rune a été utilisé, classé par ordre decroissant
+db.data.aggregate([
+	{ $project: { _id: 0, participants: 1} },
+	{ $unwind: "$participants" },
+	{ $project: { _id: 0, runes: "$participants.runes"} },
+	{ $unwind: "$runes" },
+	{ $group: { _id: "$runes.runeId", total: { $sum:1 } } },
+	{ $sort: { total: -1 } },
+	{ $out: "topRunes" }
+])
+
+//Aggregation : Uniquement les stats plus le calcul du KDA
+db.data.aggregate([
+	{ $project: { _id: 0, participants: 1} },
+	{ $unwind: "$participants" },
+	{ $project: { _id: 0, stats: "$participants.stats", KDA: { $divide: [ { $add: ["$participants.stats.kills", "$participants.stats.assists"] }, { $cond: [{ $eq: ["$participants.stats.deaths",0] },1,"$participants.stats.deaths"] } ] } } },
+	{ $sort: { KDA: -1 } },
+	{ $out: "statsPlayer" }],
+	{
+		allowDiskUse: true
+	}
+)
+
+//Aggregation : LEs statistiques du joueur moyen
+db.statsPlayer.aggregate([
+	{ $group: { _id: 'PlayerMoyen', KDA: {$avg: "$KDA"}, wardsKilled: {$avg: "$stats.wardsKilled"}, wardsPlaced: {$avg: "$stats.wardsPlaced"}, physicalDamageTaken: {$avg: "$stats.physicalDamageTaken"}, magicDamageTaken: {$avg: "$stats.magicDamageTaken"}, totalDamageTaken: {$avg: {$add: ["$stats.physicalDamageTaken","$stats.magicDamageTaken","$stats.trueDamageTaken"]}}, physicalDamageDealt: {$avg: "$stats.physicalDamageDealt"}, magicDamageDealt: {$avg: "$stats.magicDamageDealt"},totalDamageDealt: {$avg: {$add: ["$stats.physicalDamageDealt","$stats.magicDamageDealt","$stats.trueDamageDealt"]}}, physicalDamageDealtToChampions: {$avg: "$stats.physicalDamageDealtToChampions"}, magicDamageDealtToChampions: {$avg: "$stats.magicDamageDealtToChampions"},totalDamageDealtToChampions: {$avg: {$add: ["$stats.physicalDamageDealtToChampions","$stats.magicDamageDealtToChampions","$stats.trueDamageDealtToChampions"]}}, pentaKills: {$avg: "$stats.pentaKills"}, quadraKills: {$avg: "$stats.quadraKills"}, tripleKills: {$avg: "$stats.tripleKills"}, doubleKills: {$avg: "$stats.doubleKills"}, kills: {$avg: "$stats.kills"}, champLevel: {$avg: "$stats.champLevel"}, deaths: {$avg: "$stats.deaths"}, assists: {$avg: "$stats.assists"}, minionsKilled: {$avg: "$stats.minionsKilled"}, neutralMinionsKilled: {$avg: "$stats.neutralMinionsKilled"}, goldEarned: {$avg: "$stats.goldEarned"}, goldSpent: {$avg: "$stats.goldSpent"} } },
+	{ $out: "PlayerMoyen" }],
+	{
+		allowDiskUse: true
+	}
+)
