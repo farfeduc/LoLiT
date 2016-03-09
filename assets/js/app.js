@@ -20,13 +20,13 @@ LoLiT.controller('LoLiTCtrl', ['$scope', '$rootScope', '$http', function($scope,
 
   $scope.selectionnerSection = function(section)
   {
-  	$rootScope.sectionSelectionnee = section;
+    $rootScope.sectionSelectionnee = section;
   };
 
   $scope.$watch(function() {
-  	return $rootScope.sectionSelectionnee;
+    return $rootScope.sectionSelectionnee;
   }, function(newSection){
-  	//console.log(newSection);
+    //console.log(newSection);
   });
 
 }]);
@@ -50,13 +50,13 @@ LoLiT.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($s
 
   $scope.selectionnerSection = function(section)
   {
-  	$rootScope.sectionSelectionnee = section;
+    $rootScope.sectionSelectionnee = section;
   };
 
   $scope.$watch(function() {
-  	return $rootScope.sectionSelectionnee;
+    return $rootScope.sectionSelectionnee;
   }, function(newSection){
-  	//console.log(newSection);
+    //console.log(newSection);
   });
 
   // API Management
@@ -100,6 +100,9 @@ LoLiT.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($s
   $scope.datapicks = []; //championpick data
   $scope.newdatapicks = []; //pour ajouter le champ autres.
 
+  $scope.databans = []; //championpick data
+  $scope.newdatabans = []; //pour ajouter le champ autres.
+
 
   //Getting data of championpick to display
   $http({method : 'GET',url : 'http://localhost:1337/api/championpick/find'})
@@ -120,7 +123,7 @@ LoLiT.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($s
         for (var j = 21; j <= $scope.datapicks.length - 1; j++) {
           $scope.newdatapicks[21].total += $scope.datapicks[j].total;
         };
-	
+  
 
 
     })
@@ -129,10 +132,37 @@ LoLiT.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($s
     });
 
 
+  //Getting data of championban to display
+  $http({method : 'GET',url : 'http://localhost:1337/api/championban/find'})
+    .success(function(data, status) {
+        $scope.databans = data;
+        //Now we change id by names for championban data
+        for (var i = $scope.databans.length - 1; i >= 0; i--) {
+          $scope.databans[i].id=getname($scope.databans[i].id);
+        };
 
 
-  /* Chart championpick options */
-  $scope.optionspicks = {
+        for (var j = 0; j <= 20; j++) {
+          $scope.newdatabans[j] = $scope.databans[j];
+        };
+        
+        $scope.newdatabans[21] = {"total" : 0,"id" : "Autres"};
+
+        for (var j = 21; j <= $scope.databans.length - 1; j++) {
+          $scope.newdatabans[21].total += $scope.databans[j].total;
+        };
+  
+
+
+    })
+    .error(function(data, status) {
+        console.log("Error getting api data array (championban)");
+    });
+
+
+
+  /* Pie Chart */
+  $scope.piechart = {
       chart: {
           type: 'pieChart',
           height: 500,
@@ -176,13 +206,13 @@ LoLiT.controller('LoLiTCtrlPart2', ['$scope', '$rootScope', '$http', function($s
 
   $scope.selectionnerSection = function(section)
   {
-  	$rootScope.sectionSelectionnee = section;
+    $rootScope.sectionSelectionnee = section;
   };
 
   $scope.$watch(function() {
-  	return $rootScope.sectionSelectionnee;
+    return $rootScope.sectionSelectionnee;
   }, function(newSection){
-  	//console.log(newSection);
+    //console.log(newSection);
   });
 
 
@@ -196,13 +226,13 @@ LoLiT.controller('LoLiTCtrlPart3', ['$scope', '$rootScope', '$http', function($s
 
   $scope.selectionnerSection = function(section)
   {
-  	$rootScope.sectionSelectionnee = section;
+    $rootScope.sectionSelectionnee = section;
   };
 
   $scope.$watch(function() {
-  	return $rootScope.sectionSelectionnee;
+    return $rootScope.sectionSelectionnee;
   }, function(newSection){
-  	//console.log(newSection);
+    //console.log(newSection);
   });
 
   
