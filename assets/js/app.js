@@ -98,6 +98,7 @@ LoLiT.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($s
 
   /* Charts data arrays*/
   $scope.datapicks = []; //championpick data
+  $scope.newdatapicks = []; //pour ajouter le champ autres.
 
 
   //Getting data of championpick to display
@@ -108,6 +109,20 @@ LoLiT.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($s
         for (var i = $scope.datapicks.length - 1; i >= 0; i--) {
           $scope.datapicks[i].id=getname($scope.datapicks[i].id);
         };
+
+
+        for (var j = 0; j <= 20; j++) {
+          $scope.newdatapicks[j] = $scope.datapicks[j];
+        };
+        
+        $scope.newdatapicks[21] = {"total" : 0,"id" : "Autres"};
+
+        for (var j = 21; j <= $scope.datapicks.length - 1; j++) {
+          $scope.newdatapicks[21].total += $scope.datapicks[j].total;
+        };
+	
+
+
     })
     .error(function(data, status) {
         console.log("Error getting api data array (championpick)");
@@ -170,99 +185,6 @@ LoLiT.controller('LoLiTCtrlPart2', ['$scope', '$rootScope', '$http', function($s
   	//console.log(newSection);
   });
 
-  // API Management
-  $http.get('/api/championpick/find').success(function(data) {
-    for (var i = 0; i < data.length; i++) {
-      data[i].index = i;
-    }
-    $scope.items = data;
-  });
-
-  $http.get('/api/championban/find').success(function(data) {
-    for (var i = 0; i < data.length; i++) {
-      data[i].index = i;
-    }
-    $scope.items = data;
-  });
-
-  $http.get('/api/totalchampions/find').success(function(data) {
-    for (var i = 0; i < data.length; i++) {
-      data[i].index = i;
-    }
-    $scope.items = data;
-  });
-
-  $http.get('/api/totalchampionban/find').success(function(data) {
-    for (var i = 0; i < data.length; i++) {
-      data[i].index = i;
-    }
-    $scope.items = data;
-  });
-
-  $http.get('/api/winpercentage/find').success(function(data) {
-    for (var i = 0; i < data.length; i++) {
-      data[i].index = i;
-    }
-    $scope.items = data;
-  });
-
-
-  /* Charts data arrays*/
-  $scope.datapicks = []; //championpick data
-  $scope.newdatapicks = [];
-
-
-  //Getting data of championpick to display
-  $http({method : 'GET',url : 'http://localhost:1337/api/championpick/find'})
-    .success(function(data, status) {
-        $scope.datapicks = data;
-        //Now we change id by names for championpick data
-        for (var i = $scope.datapicks.length - 1; i >= 0; i--) {
-          $scope.datapicks[i].id=getname($scope.datapicks[i].id);
-        };
-
-
-        for (var j = 0; j <= 20; j++) {
-          $scope.newdatapicks[j] = $scope.datapicks[j];
-        };
-        
-        $scope.newdatapicks[21] = {"total" : 0,"id" : "Autres"};
-
-        for (var j = 21; j <= $scope.datapicks.length - 1; j++) {
-          $scope.newdatapicks[21].total += $scope.datapicks[j].total;
-        };
-	
-
-
-    })
-    .error(function(data, status) {
-        console.log("Error getting api data array (championpick)");
-    });
-
-
-
-
-  /* Chart championpick options */
-  $scope.optionspicks = {
-      chart: {
-          type: 'pieChart',
-          height: 500,
-          x: function(d){return d.id;},
-          y: function(d){return d.total;},
-          showLabels: true,
-          duration: 500,
-          labelThreshold: 0.01,
-          labelSunbeamLayout: true,
-          legend: {
-              margin: {
-                  top: 5,
-                  right: 35,
-                  bottom: 5,
-                  left: 0
-              }
-          }
-      }
-  };
 
 }]);
 
