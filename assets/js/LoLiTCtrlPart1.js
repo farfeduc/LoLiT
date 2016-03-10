@@ -11,7 +11,10 @@ app.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($sco
     }
   }
 
-
+  Array.prototype.subarray=function(start,end){
+       if(!end){ end=-1;} 
+      return this.slice(start, 1-(end*-1));
+  }
 
   $rootScope.sectionSelectionnee = 1;
 
@@ -76,21 +79,16 @@ app.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($sco
   //Getting data of championpick to display
   $http({method : 'GET',url : 'http://localhost:1337/api/championpick/find'})
     .success(function(data, status) {
-        $scope.datapicks = data;
+        $scope.datapicks = data.subarray(0,$scope.nbr_fields);
         //Now we change id by names for championpick data
         for (var i = $scope.datapicks.length - 1; i >= 0; i--) {
           $scope.datapicks[i].id=getname($scope.datapicks[i].id);
         };
 
+        $scope.datapicks[$scope.nbr_fields] = {"total" : 0,"id" : "Autres"};
 
-        for (var j = 0; j < $scope.nbr_fields; j++) {
-          $scope.newdatapicks[j] = $scope.datapicks[j];
-        };
-        
-        $scope.newdatapicks[$scope.nbr_fields] = {"total" : 0,"id" : "Autres"};
-
-        for (var j = $scope.nbr_fields; j <= $scope.datapicks.length - 1; j++) {
-          $scope.newdatapicks[$scope.nbr_fields].total += $scope.datapicks[j].total;
+        for (var j = $scope.nbr_fields; j <= data.length - 1; j++) {
+          $scope.datapicks[$scope.nbr_fields].total += data[j].total;
         };
   
 
