@@ -4,7 +4,7 @@ app.controller('LoLiTCtrl', ['$scope', '$rootScope', '$http', function($scope, $
   
   //Get name from id
   function getname (id) {
-    for (let i in champions){
+    for (var i=0; i<champions.length; i++){
       if (champions[i].id===id){
         return champions[i].name;
       }
