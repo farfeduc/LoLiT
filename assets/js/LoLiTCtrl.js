@@ -16,7 +16,6 @@ app.controller('LoLiTCtrl', ['$scope', '$rootScope', '$http', function($scope, $
       return this.slice(start, 1-(end*-1));
   }
 
-
   $rootScope.sectionSelectionnee = null;
 
   $scope.selectionnerSection = function(section)
