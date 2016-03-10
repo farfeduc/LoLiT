@@ -90,9 +90,6 @@ app.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($sco
         for (var j = $scope.nbr_fields; j <= data.length - 1; j++) {
           $scope.datapicks[$scope.nbr_fields].total += data[j].total;
         };
-  
-
-
     })
     .error(function(data, status) {
         console.log("Error getting api data array (championpick)");
@@ -102,25 +99,17 @@ app.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($sco
   //Getting data of championban to display
   $http({method : 'GET',url : 'http://localhost:1337/api/championban/find'})
     .success(function(data, status) {
-        $scope.databans = data;
+        $scope.databans = data.subarray(0,$scope.nbr_fields);
         //Now we change id by names for championban data
         for (var i = $scope.databans.length - 1; i >= 0; i--) {
           $scope.databans[i].id=getname($scope.databans[i].id);
         };
-
-
-        for (var j = 0; j < $scope.nbr_fields; j++) {
-          $scope.newdatabans[j] = $scope.databans[j];
-        };
         
-        $scope.newdatabans[$scope.nbr_fields] = {"total" : 0,"id" : "Autres"};
+        $scope.databans[$scope.nbr_fields] = {"total" : 0,"id" : "Autres"};
 
-        for (var j = $scope.nbr_fields; j <= $scope.databans.length - 1; j++) {
-          $scope.newdatabans[$scope.nbr_fields].total += $scope.databans[j].total;
+        for (var j = $scope.nbr_fields; j <= data.length - 1; j++) {
+          $scope.databans[$scope.nbr_fields].total += data[j].total;
         };
-  
-
-
     })
     .error(function(data, status) {
         console.log("Error getting api data array (championban)");
