@@ -65,18 +65,13 @@ app.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($sco
     $scope.items = data;
   });
 
-
   /* Charts data arrays*/
   $scope.datapicks = []; //championpick data
-  $scope.newdatapicks = []; //pour ajouter le champ autres.
-
   $scope.databans = []; //championpick data
-  $scope.newdatabans = []; //pour ajouter le champ autres.
-
+  $scope.ranking = []; //ranking data
   $scope.nbr_fields = 19;
 
-
-  //Getting data of championpick to display
+  /* Getting data of championpick to display */
   $http({method : 'GET',url : 'http://localhost:1337/api/championpick/find'})
     .success(function(data, status) {
         $scope.datapicks = data.subarray(0,$scope.nbr_fields);
@@ -96,7 +91,7 @@ app.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($sco
     });
 
 
-  //Getting data of championban to display
+  /* Getting data of championban to display */
   $http({method : 'GET',url : 'http://localhost:1337/api/championban/find'})
     .success(function(data, status) {
         $scope.databans = data.subarray(0,$scope.nbr_fields);
@@ -115,7 +110,14 @@ app.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($sco
         console.log("Error getting api data array (championban)");
     });
 
-
+  //Getting data of ranking to display
+  $http({method : 'GET',url : 'http://localhost:1337/api/ranking/find'})
+    .success(function(data, status) {
+        $scope.ranking = data;
+    })
+    .error(function(data, status) {
+        console.log("Error getting api data array (championban)");
+    });
 
   /* Pie Chart */
   $scope.piechart = {
@@ -141,24 +143,54 @@ app.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($sco
 
   /* Donut Chart */
   $scope.donutchart = {
-  chart: {
-    type: "pieChart",
-    height: 450,
-    x: function(d){return d.id;},
-    y: function(d){return d.total;},
-    donut: true,
-    showLabels: true,
-    pie: {},
-    duration: 500,
-    legend: {
-      margin: {
-        top: 5,
-        right: 140,
-        bottom: 5,
-        left: 0
+    chart: {
+      type: "pieChart",
+      height: 450,
+      x: function(d){return d.id;},
+      y: function(d){return d.total;},
+      donut: true,
+      showLabels: true,
+      pie: {   
+        startAngle: function (d) { return d.startAngle/3*2 -Math.PI*2/3 },
+        endAngle: function (d) { return d.endAngle/3*2 -Math.PI*2/3 }
+      },
+      duration: 500,
+      legend: {
+        margin: {
+          top: 5,
+          right: 140,
+          bottom: 5,
+          left: 0
+        }
       }
     }
   }
-}
-
+  /*
+  $scope.discreteBarChart = {
+    chart: {
+      type: 'discreteBarChart',
+      height: 450,
+      margin : {
+        top: 20,
+        right: 20,
+        bottom: 50,
+        left: 55
+      },
+      x: function(d){return d.id;},
+      y: function(d){return d.total;},
+      showValues: true,
+      valueFormat: function(d){
+        return d3.format(',.4f')(d);
+      },
+      duration: 500,
+      xAxis: {
+        axisLabel: 'X Axis'
+      },
+      yAxis: {
+        axisLabel: 'Y Axis',
+        axisLabelDistance: -10
+      }
+    }
+  };
+  */
 }]);
