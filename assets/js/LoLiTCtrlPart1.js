@@ -70,6 +70,8 @@ app.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($sco
   $scope.databans = []; //championpick data
   $scope.newdatabans = []; //pour ajouter le champ autres.
 
+  $scope.nbr_fields = 19;
+
 
   //Getting data of championpick to display
   $http({method : 'GET',url : 'http://localhost:1337/api/championpick/find'})
@@ -81,14 +83,14 @@ app.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($sco
         };
 
 
-        for (var j = 0; j <= 20; j++) {
+        for (var j = 0; j < $scope.nbr_fields; j++) {
           $scope.newdatapicks[j] = $scope.datapicks[j];
         };
         
-        $scope.newdatapicks[21] = {"total" : 0,"id" : "Autres"};
+        $scope.newdatapicks[$scope.nbr_fields] = {"total" : 0,"id" : "Autres"};
 
-        for (var j = 21; j <= $scope.datapicks.length - 1; j++) {
-          $scope.newdatapicks[21].total += $scope.datapicks[j].total;
+        for (var j = $scope.nbr_fields; j <= $scope.datapicks.length - 1; j++) {
+          $scope.newdatapicks[$scope.nbr_fields].total += $scope.datapicks[j].total;
         };
   
 
@@ -109,14 +111,14 @@ app.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($sco
         };
 
 
-        for (var j = 0; j <= 20; j++) {
+        for (var j = 0; j < $scope.nbr_fields; j++) {
           $scope.newdatabans[j] = $scope.databans[j];
         };
         
-        $scope.newdatabans[21] = {"total" : 0,"id" : "Autres"};
+        $scope.newdatabans[$scope.nbr_fields] = {"total" : 0,"id" : "Autres"};
 
-        for (var j = 21; j <= $scope.databans.length - 1; j++) {
-          $scope.newdatabans[21].total += $scope.databans[j].total;
+        for (var j = $scope.nbr_fields; j <= $scope.databans.length - 1; j++) {
+          $scope.newdatabans[$scope.nbr_fields].total += $scope.databans[j].total;
         };
   
 
@@ -149,5 +151,27 @@ app.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($sco
           }
       }
   };
+
+  /* Donut Chart */
+  $scope.donutchart = {
+  chart: {
+    type: "pieChart",
+    height: 450,
+    x: function(d){return d.id;},
+    y: function(d){return d.total;},
+    donut: true,
+    showLabels: true,
+    pie: {},
+    duration: 500,
+    legend: {
+      margin: {
+        top: 5,
+        right: 140,
+        bottom: 5,
+        left: 0
+      }
+    }
+  }
+}
 
 }]);
