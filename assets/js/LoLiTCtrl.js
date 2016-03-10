@@ -11,6 +11,11 @@ app.controller('LoLiTCtrl', ['$scope', '$rootScope', '$http', function($scope, $
     }
   }
 
+  Array.prototype.subarray=function(start,end){
+       if(!end){ end=-1;} 
+      return this.slice(start, 1-(end*-1));
+  }
+
 
   $rootScope.sectionSelectionnee = null;
 
