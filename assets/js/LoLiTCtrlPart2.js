@@ -27,5 +27,22 @@ app.controller('LoLiTCtrlPart2', ['$scope', '$rootScope', '$http', function($sco
     //console.log(newSection);
   });
 
+  $http.get('/api/averageplayer/find').success(function(data) {
+    for (var i = 0; i < data.length; i++) {
+      data[i].index = i;
+    }
+    $scope.items = data;
+  });
+
+  $scope.avgppl = [];
+
+  $http({method : 'GET',url : 'http://localhost:1337/api/averageplayer/find'})
+    .success(function(data, status) {
+        $scope.avgppls = data;
+ 
+    })
+    .error(function(data, status) {
+        console.log("Error getting api data array (averageplayer)");
+    });
 
 }]);
