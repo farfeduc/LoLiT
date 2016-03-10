@@ -109,3 +109,12 @@ db.statsPlayer.aggregate([
 		allowDiskUse: true
 	}
 )
+
+Aggregation : Contient les rangs des personnes qui jouent dans notre base
+db.data.aggregate([
+	{ $project: { _id: 0, participants: 1} },
+	{ $unwind: "$participants" },
+	{ $group: { _id: { $ifNull: ["$participants.highestAchievedSeasonTier", 'Level < 30']}, total: { $sum:1 } } },
+	{ $sort: { total: -1 } },
+	{ $out: "Ranking" }
+])
