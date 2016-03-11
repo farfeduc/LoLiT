@@ -1,40 +1,40 @@
 <div ng-controller='LoLiTCtrlPart1'>
 
 	<div style="background-color:rgba(1,1,1,0.2)" class="container" >
-		<div class="alert alert-info" role="alert">
-			<a href="#" class="alert-link">Pick rate</a>
+		<div class="title-section">
+			Champion Pickrate
 		</div>
 
 
 		<div class="row">
 			<div class="center">	
 				<div class="col-sw-6">
-					<p>TOP</p>
+					<p class="pick-title">Top</p>
 					<nvd3 options="piechart_small" data="datapickstop"></nvd3>
 				</div>
 				<div class="col-sw-6">
-					<p>BOTTOM</p>
+					<p class="pick-title">Bottom</p>
 					<nvd3 options="piechart_small" data="datapicksbottom"></nvd3>
 				</div>
 			</div>
 			<div class="center">
 				<div class="col-sw-6">
-					<p>MID</p>
+					<p class="pick-title">Middle</p>
 					<nvd3 options="piechart_small" data="datapicksmid"></nvd3>
 				</div>
 				<div class="col-sw-6">
-					<p>JUNGLE</p>
+					<p class="pick-title">Jungle</p>
 					<nvd3 options="piechart_small" data="datapicksjungle"></nvd3>
 				</div>
 			</div>
 		</div> 
 
-		<div class="alert alert-info" role="alert">
-			<a href="#" class="alert-link">Ban rate</a>
+		<div class="title-section">
+			Ban rate
 		</div>
 		<nvd3 options="piechart" data="databans"></nvd3>
-		<div class="alert alert-info" role="alert">
-			<a href="#" class="alert-link">Number of games / Ligue</a>
+		<div class="title-section">
+			Ranking stats
 		</div>
 		<nvd3 options="donutchart" data="ranking"></nvd3>
 	</div>
