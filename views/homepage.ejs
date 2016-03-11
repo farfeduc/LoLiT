@@ -1,15 +1,17 @@
 <div ng-controller='LoLiTCtrlPart1'>
 
   <div style="background-color:rgba(1,1,1,0.2)" class="container" >
+    <div class="alert alert-info" role="alert">
+      <a href="#" class="alert-link">Champion winrate</a>
+    </div>
     <nvd3 options="piechart" data="datapicks"></nvd3>
-  </div>
-
-  <div style="background-color:rgba(1,1,1,0.2)" class="container" >
+  	<div class="alert alert-info" role="alert">
+      <a href="#" class="alert-link">Ban rate</a>
+    </div>
     <nvd3 options="piechart" data="databans"></nvd3>
-  </div>
-
-  <div style="background-color:rgba(1,1,1,0.2)" class="container" >
+    <div class="alert alert-info" role="alert">
+      <a href="#" class="alert-link">Ranking stats</a>
+    </div>
     <nvd3 options="donutchart" data="ranking"></nvd3>
   </div>
-
 </div>
