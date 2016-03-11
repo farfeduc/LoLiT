@@ -177,6 +177,22 @@ app.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($sco
   $http({method : 'GET',url : 'http://localhost:1337/api/ranking/find'})
     .success(function(data, status) {
         $scope.ranking = data;
+        //Reorganizing the array
+        var tmp = $scope.ranking[4];
+        $scope.ranking[4] = $scope.ranking[0];
+        $scope.ranking[0] = tmp;
+
+        tmp = $scope.ranking[4];
+        $scope.ranking[4] = $scope.ranking[1];
+        $scope.ranking[1] = tmp;
+
+        tmp = $scope.ranking[3];
+        $scope.ranking[3] = $scope.ranking[2];
+        $scope.ranking[2] = tmp;
+
+        tmp = $scope.ranking[3];
+        $scope.ranking[3] = $scope.ranking[4];
+        $scope.ranking[4] = tmp;
     })
     .error(function(data, status) {
         console.log("Error getting api data array (championban)");
@@ -230,8 +246,8 @@ app.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($sco
       donut: true,
       showLabels: true,
       pie: {   
-        startAngle: function (d) { return d.startAngle/3*2 -Math.PI*2/3 },
-        endAngle: function (d) { return d.endAngle/3*2 -Math.PI*2/3 }
+        startAngle: function (d) { return d.startAngle*2/3 -Math.PI*2/3 },
+        endAngle: function (d) { return d.endAngle*2/3 -Math.PI*2/3 }
       },
       duration: 500,
       legend: {
