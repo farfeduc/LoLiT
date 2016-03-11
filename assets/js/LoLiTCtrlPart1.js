@@ -66,36 +66,17 @@ app.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($sco
   });
 
   /* Charts data arrays*/
-  $scope.datapicks = []; //championpick data
-  $scope.databans = []; //championpick data
-  $scope.ranking = []; //ranking data
-
-  $scope.datapickstop = [];
+  $scope.datapickstop = []; // championpick data per lane
   $scope.datapicksbottom = [];
   $scope.datapicksmid = [];
   $scope.datapicksjungle = [];
 
+  $scope.databans = []; //championban data
+  $scope.ranking = []; //ranking data
+
+
   $scope.nbr_fields = 19;
-  $scope.nbr_fields_per_lane = 24;
-
-  /* Getting data of championpick to display */
-  $http({method : 'GET',url : 'http://localhost:1337/api/championpick/find'})
-    .success(function(data, status) {
-        $scope.datapicks = data.subarray(0,$scope.nbr_fields);
-        //Now we change id by names for championpick data
-        for (var i = $scope.datapicks.length - 1; i >= 0; i--) {
-          $scope.datapicks[i].id=getname($scope.datapicks[i].id);
-        };
-
-        $scope.datapicks[$scope.nbr_fields] = {"total" : 0,"id" : "Autres"};
-
-        for (var j = $scope.nbr_fields; j <= data.length - 1; j++) {
-          $scope.datapicks[$scope.nbr_fields].total += data[j].total;
-        };
-    })
-    .error(function(data, status) {
-        console.log("Error getting api data array (championpick)");
-    });
+  $scope.nbr_fields_per_lane = 19;
 
   /* Getting data of championpick (TOP) to display */
   $http({method : 'GET',url : 'http://localhost:1337/api/championpicktop/find'})
@@ -114,6 +95,63 @@ app.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($sco
     })
     .error(function(data, status) {
         console.log("Error getting api data array (championpicktop)");
+    });
+
+  /* Getting data of championpick to display */
+  $http({method : 'GET',url : 'http://localhost:1337/api/championpickbottom/find'})
+    .success(function(data, status) {
+        $scope.datapicksbottom = data.subarray(1,$scope.nbr_fields_per_lane);
+        //Now we change id by names for championpick data
+        for (var i = $scope.datapicksbottom.length - 1; i >= 0; i--) {
+          $scope.datapicksbottom[i].id=getname($scope.datapicksbottom[i].id);
+        };
+
+        $scope.datapicksbottom[$scope.nbr_fields_per_lane] = {"total" : 0,"id" : "Autres"};
+
+        for (var j = $scope.nbr_fields_per_lane; j <= data.length - 1; j++) {
+          $scope.datapicksbottom[$scope.nbr_fields_per_lane].total += data[j].total;
+        };
+    })
+    .error(function(data, status) {
+        console.log("Error getting api data array (championpick)");
+    });
+
+  /* Getting data of championpick to display */
+  $http({method : 'GET',url : 'http://localhost:1337/api/championpickmiddle/find'})
+    .success(function(data, status) {
+        $scope.datapicksmid = data.subarray(1,$scope.nbr_fields_per_lane);
+        //Now we change id by names for championpick data
+        for (var i = $scope.datapicksmid.length - 1; i >= 0; i--) {
+          $scope.datapicksmid[i].id=getname($scope.datapicksmid[i].id);
+        };
+
+        $scope.datapicksmid[$scope.nbr_fields_per_lane] = {"total" : 0,"id" : "Autres"};
+
+        for (var j = $scope.nbr_fields_per_lane; j <= data.length - 1; j++) {
+          $scope.datapicksmid[$scope.nbr_fields_per_lane].total += data[j].total;
+        };
+    })
+    .error(function(data, status) {
+        console.log("Error getting api data array (championpick)");
+    });
+
+  /* Getting data of championpick to display */
+  $http({method : 'GET',url : 'http://localhost:1337/api/championpickjungle/find'})
+    .success(function(data, status) {
+        $scope.datapicksjungle = data.subarray(1,$scope.nbr_fields_per_lane);
+        //Now we change id by names for championpick data
+        for (var i = $scope.datapicksjungle.length - 1; i >= 0; i--) {
+          $scope.datapicksjungle[i].id=getname($scope.datapicksjungle[i].id);
+        };
+
+        $scope.datapicksjungle[$scope.nbr_fields_per_lane] = {"total" : 0,"id" : "Autres"};
+
+        for (var j = $scope.nbr_fields_per_lane; j <= data.length - 1; j++) {
+          $scope.datapicksjungle[$scope.nbr_fields_per_lane].total += data[j].total;
+        };
+    })
+    .error(function(data, status) {
+        console.log("Error getting api data array (championpick)");
     });
 
   /* Getting data of championban to display */

@@ -2,32 +2,33 @@
 
 	<div style="background-color:rgba(1,1,1,0.2)" class="container" >
 		<div class="alert alert-info" role="alert">
-			<a href="#" class="alert-link">Champion winrate</a>
+			<a href="#" class="alert-link">Champion Pickrate</a>
 		</div>
-		
+
 
 		<div class="row">
 			<div class="center">	
 				<div class="col-sw-6">
+					<p>TOP</p>
 					<nvd3 options="piechart_small" data="datapickstop"></nvd3>
 				</div>
 				<div class="col-sw-6">
-					<nvd3 options="piechart_small" data="datapickstop"></nvd3>
+					<p>BOTTOM</p>
+					<nvd3 options="piechart_small" data="datapicksbottom"></nvd3>
 				</div>
 			</div>
 			<div class="center">
 				<div class="col-sw-6">
-					<nvd3 options="piechart_small" data="datapickstop"></nvd3>
+					<p>MID</p>
+					<nvd3 options="piechart_small" data="datapicksmid"></nvd3>
 				</div>
 				<div class="col-sw-6">
-					<nvd3 options="piechart_small" data="datapickstop"></nvd3>
+					<p>JUNGLE</p>
+					<nvd3 options="piechart_small" data="datapicksjungle"></nvd3>
 				</div>
 			</div>
 		</div> 
-		
-		<nvd3 options="piechart" data="datapickstop"></nvd3>
-		
-		<nvd3 options="piechart" data="datapicks"></nvd3>
+
 		<div class="alert alert-info" role="alert">
 			<a href="#" class="alert-link">Ban rate</a>
 		</div>
