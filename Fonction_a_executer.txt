@@ -1,0 +1,4 @@
+db.data.find({date: {$exists: true}}).forEach(function(obj) { 
+    obj.date = new NumberInt(obj.date);
+    db.data.save(obj);
+});
