@@ -45,4 +45,5 @@ app.controller('LoLiTCtrlPart2', ['$scope', '$rootScope', '$http', function($sco
         console.log("Error getting api data array (averageplayer)");
     });
 
+
 }]);
