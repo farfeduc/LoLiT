@@ -69,7 +69,14 @@ app.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($sco
   $scope.datapicks = []; //championpick data
   $scope.databans = []; //championpick data
   $scope.ranking = []; //ranking data
+
+  $scope.datapickstop = [];
+  $scope.datapicksbottom = [];
+  $scope.datapicksmid = [];
+  $scope.datapicksjungle = [];
+
   $scope.nbr_fields = 19;
+  $scope.nbr_fields_per_lane = 24;
 
   /* Getting data of championpick to display */
   $http({method : 'GET',url : 'http://localhost:1337/api/championpick/find'})
@@ -90,6 +97,24 @@ app.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($sco
         console.log("Error getting api data array (championpick)");
     });
 
+  /* Getting data of championpick (TOP) to display */
+  $http({method : 'GET',url : 'http://localhost:1337/api/championpicktop/find'})
+    .success(function(data, status) {
+        $scope.datapickstop = data.subarray(1,$scope.nbr_fields_per_lane);
+        //Now we change id by names for championpick data
+        for (var i = $scope.datapickstop.length - 1; i >= 0; i--) {
+          $scope.datapickstop[i].id=getname($scope.datapickstop[i].id);
+        };
+
+        $scope.datapickstop[$scope.nbr_fields_per_lane] = {"total" : 0,"id" : "Autres"};
+
+        for (var j = $scope.nbr_fields_per_lane; j <= data.length - 1; j++) {
+          $scope.datapickstop[$scope.nbr_fields_per_lane].total += data[j].total;
+        };
+    })
+    .error(function(data, status) {
+        console.log("Error getting api data array (championpicktop)");
+    });
 
   /* Getting data of championban to display */
   $http({method : 'GET',url : 'http://localhost:1337/api/championban/find'})
@@ -138,6 +163,22 @@ app.controller('LoLiTCtrlPart1', ['$scope', '$rootScope', '$http', function($sco
                   left: 0
               }
           }
+      }
+  };
+
+/* Pie Chart small */
+  $scope.piechart_small = {
+      chart: {
+          type: 'pieChart',
+          height: 500,
+          width: 500,
+          x: function(d){return d.id;},
+          y: function(d){return d.total;},
+          showLabels: true,
+          duration: 500,
+          labelThreshold: 0.01,
+          labelSunbeamLayout: true,
+          showLegend: false
       }
   };
 
