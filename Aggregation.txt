@@ -135,3 +135,11 @@ db.data.aggregate([
 	{ $group: { _id: { $cond: [ {$gt: ["$date",(new Date()/1000)-86400]},'Il y a moins de 1 jour', {$cond: [{$gt: ["$date",(new Date()/1000)-172800]},'Il y 2 jours',{ $cond: [{$gt:["$date",(new Date()/1000)-259200]},'Il y a 3 jours',{$cond: [{$gt: ["$date",(new Date()/1000)-345600]},'Il y a 4 jours',{$cond: [{$gt: ["$date",(new Date()/1000)-432000]},'Il y a 5 jours',{$cond: [{$gt: ["$date",(new Date()/1000)-518400]},'Il y a 6 jours',{$cond: [{$gt: ["$date",(new Date()/1000)-604800]},'Il y a 7 jours','Il y a plus de 7 jours']}]}]}]}]}]}]}, total: { $sum: 1} } },
 	{ $out: "Data7Jours" }
 ])
+
+
+var currentdate = new Date()
+db.data.aggregate([
+	{ $match: { date: { $gt: (currentdate/1000) - 604800, $lt: (currentdate/1000)} } },
+	{ $group: { _id: { $cond: [ {$gt: ["$date",(currentdate/1000)-86400]},'1 jour', {$cond: [{$gt: ["$date",(currentdate/1000)-172800]},'2 jours',{ $cond: [{$gt:["$date",(currentdate/1000)-259200]},'3 jours',{$cond: [{$gt: ["$date",(currentdate/1000)-345600]},'4 jours',{$cond: [{$gt: ["$date",(currentdate/1000)-432000]},'5 jours',{$cond: [{$gt: ["$date",(currentdate/1000)-518400]},'6 jours',{$cond: [{$gt: ["$date",(currentdate/1000)-604800]},'7 jours','plus de 7 jours']}]}]}]}]}]}]}, total: { $sum: 1} } },
+	{ $out: "Data7Jours" }
+])

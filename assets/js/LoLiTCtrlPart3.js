@@ -16,30 +16,31 @@ app.controller('LoLiTCtrlPart3', ['$scope', '$rootScope', '$http', function($sco
             chart: {
                 type: 'discreteBarChart',
                 height: 450,
+                width: 700,
                 margin : {
                     top: 20,
                     right: 20,
                     bottom: 50,
-                    left: 55
+                    left: 150
                 },
-                x: function(d){return d.label;},
-                y: function(d){return d.value + (1e-10);},
+                x: function(d){return d.id;},
+                y: function(d){return d.total + (1e-10);},
                 showValues: true,
                 valueFormat: function(d){
                     return d3.format(',.0f')(d);
                 },
                 duration: 500,
                 xAxis: {
-                    axisLabel: 'Jour'
+                    axisLabel: 'Il y a '
                 },
                 yAxis: {
                     axisLabel: 'Nombre de parties jouées',
-                    axisLabelDistance: -10
+                    axisLabelDistance: 30
                 }
             }
         };
 
-        $scope.dailygames = [
+        /*$scope.dailygames = [
             {
                 key: "Cumulative Return",
                 values: [
@@ -73,5 +74,22 @@ app.controller('LoLiTCtrlPart3', ['$scope', '$rootScope', '$http', function($sco
                     }
                 ]
             }
-        ];
+        ];*/
+
+
+      $scope.datadailygames =  [
+      {
+                key: "daily games number (7 days)",
+                values: []
+      }];
+
+      /* Getting data of dailygames to display */
+      $http({method : 'GET',url : 'http://localhost:1337/api/dailygames/find'})
+        .success(function(data, status) {
+            console.log($scope.datadailygames[0].values);
+            $scope.datadailygames[0].values = data;
+        })
+        .error(function(data, status) {
+            console.log("Error getting api data array (daily games)");
+        });
 }]);
