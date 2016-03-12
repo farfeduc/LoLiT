@@ -101,7 +101,7 @@ db.data.aggregate([
 	}
 )
 
-//Aggregation : LEs statistiques du joueur moyen
+//Aggregation : Les statistiques du joueur moyen
 db.statsPlayer.aggregate([
 	{ $group: { _id: 'PlayerMoyen', KDA: {$avg: "$KDA"}, wardsKilled: {$avg: "$stats.wardsKilled"}, wardsPlaced: {$avg: "$stats.wardsPlaced"}, physicalDamageTaken: {$avg: "$stats.physicalDamageTaken"}, magicDamageTaken: {$avg: "$stats.magicDamageTaken"}, totalDamageTaken: {$avg: {$add: ["$stats.physicalDamageTaken","$stats.magicDamageTaken","$stats.trueDamageTaken"]}}, physicalDamageDealt: {$avg: "$stats.physicalDamageDealt"}, magicDamageDealt: {$avg: "$stats.magicDamageDealt"},totalDamageDealt: {$avg: {$add: ["$stats.physicalDamageDealt","$stats.magicDamageDealt","$stats.trueDamageDealt"]}}, physicalDamageDealtToChampions: {$avg: "$stats.physicalDamageDealtToChampions"}, magicDamageDealtToChampions: {$avg: "$stats.magicDamageDealtToChampions"},totalDamageDealtToChampions: {$avg: {$add: ["$stats.physicalDamageDealtToChampions","$stats.magicDamageDealtToChampions","$stats.trueDamageDealtToChampions"]}}, pentaKills: {$avg: "$stats.pentaKills"}, quadraKills: {$avg: "$stats.quadraKills"}, tripleKills: {$avg: "$stats.tripleKills"}, doubleKills: {$avg: "$stats.doubleKills"}, kills: {$avg: "$stats.kills"}, champLevel: {$avg: "$stats.champLevel"}, deaths: {$avg: "$stats.deaths"}, assists: {$avg: "$stats.assists"}, minionsKilled: {$avg: "$stats.minionsKilled"}, neutralMinionsKilled: {$avg: "$stats.neutralMinionsKilled"}, goldEarned: {$avg: "$stats.goldEarned"}, goldSpent: {$avg: "$stats.goldSpent"} } },
 	{ $out: "PlayerMoyen" }],
@@ -117,4 +117,21 @@ db.data.aggregate([
 	{ $group: { _id: { $ifNull: ["$participants.highestAchievedSeasonTier", 'Level < 30']}, total: { $sum:1 } } },
 	{ $sort: { total: -1 } },
 	{ $out: "Ranking" }
+])
+
+//7 jours en timestamp : 604800
+//(new Date()/1000) - 604800 = Date courante moins 7 jours
+//(new Date("2016-02-29T00:00:00.000Z")/1000) - 604800
+//1 jour = 86400
+
+
+db.data.find({date: {$exists: true}}).forEach(function(obj) { 
+    obj.date = new NumberInt(obj.date);
+    db.data.save(obj);
+});
+
+db.data.aggregate([
+	{ $match: { date: { $gt: (new Date()/1000) - 604800, $lt: (new Date()/1000)} } },
+	{ $group: { _id: { $cond: [ {$gt: ["$date",(new Date()/1000)-86400]},'Il y a moins de 1 jour', {$cond: [{$gt: ["$date",(new Date()/1000)-172800]},'Il y 2 jours',{ $cond: [{$gt:["$date",(new Date()/1000)-259200]},'Il y a 3 jours',{$cond: [{$gt: ["$date",(new Date()/1000)-345600]},'Il y a 4 jours',{$cond: [{$gt: ["$date",(new Date()/1000)-432000]},'Il y a 5 jours',{$cond: [{$gt: ["$date",(new Date()/1000)-518400]},'Il y a 6 jours',{$cond: [{$gt: ["$date",(new Date()/1000)-604800]},'Il y a 7 jours','Il y a plus de 7 jours']}]}]}]}]}]}]}, total: { $sum: 1} } },
+	{ $out: "Data7Jours" }
 ])
