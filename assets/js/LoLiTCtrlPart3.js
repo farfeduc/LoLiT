@@ -40,41 +40,34 @@ app.controller('LoLiTCtrlPart3', ['$scope', '$rootScope', '$http', function($sco
             }
         };
 
-        /*$scope.dailygames = [
-            {
-                key: "Cumulative Return",
-                values: [
-                    {
-                        "label" : "Lundi" ,
-                        "value" : 28742
-                    } ,
-                    {
-                        "label" : "Mardi" ,
-                        "value" : 19347
-                    } ,
-                    {
-                        "label" : "Mercredi" ,
-                        "value" : 16342
-                    } ,
-                    {
-                        "label" : "Jeudi" ,
-                        "value" : 28669
-                    } ,
-                    {
-                        "label" : "Vendredi" ,
-                        "value" : 27878
-                    } ,
-                    {
-                        "label" : "Samedi" ,
-                        "value" : 35368
-                    } ,
-                    {
-                        "label" : "Dimanche" ,
-                        "value" : 31465
-                    }
-                ]
+
+        $scope.barchart2 = {
+            chart: {
+                type: 'discreteBarChart',
+                height: 550,
+                width: 1100,
+                margin : {
+                    top: 20,
+                    right: 20,
+                    bottom: 50,
+                    left: 150
+                },
+                x: function(d){return d.id;},
+                y: function(d){return d.total + (1e-10);},
+                showValues: true,
+                valueFormat: function(d){
+                    return d3.format(',.0f')(d);
+                },
+                duration: 500,
+                xAxis: {
+                    axisLabel: 'Types de parties'
+                },
+                yAxis: {
+                    axisLabel: 'Nombre de parties jouées',
+                    axisLabelDistance: 30
+                }
             }
-        ];*/
+        };
 
 
       $scope.datadailygames =  [
@@ -86,8 +79,23 @@ app.controller('LoLiTCtrlPart3', ['$scope', '$rootScope', '$http', function($sco
       /* Getting data of dailygames to display */
       $http({method : 'GET',url : 'http://localhost:1337/api/dailygames/find'})
         .success(function(data, status) {
-            console.log($scope.datadailygames[0].values);
             $scope.datadailygames[0].values = data;
+        })
+        .error(function(data, status) {
+            console.log("Error getting api data array (daily games)");
+        });
+
+
+        $scope.dataqueues =  [
+      {
+                key: "Queuetypes",
+                values: []
+      }];
+
+      /* Getting data of dailygames to display */
+      $http({method : 'GET',url : 'http://localhost:1337/api/queuetype/find'})
+        .success(function(data, status) {
+            $scope.dataqueues[0].values = data;
         })
         .error(function(data, status) {
             console.log("Error getting api data array (daily games)");
