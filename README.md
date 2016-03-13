@@ -11,9 +11,9 @@ This project is based on [Sails.js](http://sailsjs.org/documentation/concepts/) 
 
 ## Basic informations
 
-Status : **In Developpement**
+Status : **Project submitted**
 
-Release : ***0.0.0*** No release for the moment, this is still a simple boilerplate.
+Release : ***0.1.0*** First release for project submission.
 
 
 ##Prerequistes
@@ -31,9 +31,19 @@ For MongoDB : [See supported platforms](https://docs.mongodb.org/manual/installa
 On Linux (but should also work under Windows and MacOSX with few adjustements) just run : 
 
 ```bash
+sudo npm install -g bower gulp
+
 git clone https://github.com/farfeduc/LoLiT
 
-npm install #use sudo if it fails
+sudo npm install
+
+sudo npm install machinepack-sailsgulpify
+
+sudo npm install machinepack-prompts
+
+sudo node node_modules/machinepack-sailsgulpify/templates/toggleEngine.js
+
+# Then type : "gulpifysails" (cf : https://github.com/Karnith/machinepack-sailsgulpify)
 
 cd assets/
 bower install
@@ -51,10 +61,10 @@ and then go to :  `http://localhost:1337`
 - [Gulp](http://gulpjs.com/)
 - [Npm](https://www.npmjs.com/) 
 - [Bower](http://bower.io/)
+- [Angular-nvd3](http://krispo.github.io/angular-nvd3/#/)
+- [Bootstrap](http://getbootstrap.com/)
+- [Gulpifysails](https://github.com/Karnith/machinepack-sailsgulpify)
 
-##Todo
+##Possible enhancements
 
-- Creation of the homepage
-- Connection to MongoDB
-- Use of charts (planning to use [this](http://jtblin.github.io/angular-chart.js/) or [that](http://krispo.github.io/angular-nvd3/#/))
 - Make website responsive (Bootstrap is included in the projet)
