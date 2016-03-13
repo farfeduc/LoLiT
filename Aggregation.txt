@@ -137,12 +137,13 @@ db.data.aggregate([
 ])
 
 
-var currentdate = new Date()
+																																																																																			
 db.data.aggregate([
 	{ $match: { date: { $gt: (currentdate/1000) - 604800, $lt: (currentdate/1000)} } },
 	{ $group: { _id: { $cond: [ {$gt: ["$date",(currentdate/1000)-86400]},'1 jour', {$cond: [{$gt: ["$date",(currentdate/1000)-172800]},'2 jours',{ $cond: [{$gt:["$date",(currentdate/1000)-259200]},'3 jours',{$cond: [{$gt: ["$date",(currentdate/1000)-345600]},'4 jours',{$cond: [{$gt: ["$date",(currentdate/1000)-432000]},'5 jours',{$cond: [{$gt: ["$date",(currentdate/1000)-518400]},'6 jours',{$cond: [{$gt: ["$date",(currentdate/1000)-604800]},'7 jours','plus de 7 jours']}]}]}]}]}]}]}, total: { $sum: 1} } },
+	{ $sort: { _id: -1 } },
 	{ $out: "Data7Jours" }
-])
+])																												
 
 //Nombre de games par type de partie
 db.data.aggregate([
