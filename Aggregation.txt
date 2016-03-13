@@ -123,20 +123,12 @@ db.data.aggregate([
 //(new Date()/1000) - 604800 = Date courante moins 7 jours
 //(new Date("2016-02-29T00:00:00.000Z")/1000) - 604800
 //1 jour = 86400
-
-
 db.data.find({date: {$exists: true}}).forEach(function(obj) { 
     obj.date = new NumberInt(obj.date);
     db.data.save(obj);
 });
 
-db.data.aggregate([
-	{ $match: { date: { $gt: (new Date()/1000) - 604800, $lt: (new Date()/1000)} } },
-	{ $group: { _id: { $cond: [ {$gt: ["$date",(new Date()/1000)-86400]},'Il y a moins de 1 jour', {$cond: [{$gt: ["$date",(new Date()/1000)-172800]},'Il y 2 jours',{ $cond: [{$gt:["$date",(new Date()/1000)-259200]},'Il y a 3 jours',{$cond: [{$gt: ["$date",(new Date()/1000)-345600]},'Il y a 4 jours',{$cond: [{$gt: ["$date",(new Date()/1000)-432000]},'Il y a 5 jours',{$cond: [{$gt: ["$date",(new Date()/1000)-518400]},'Il y a 6 jours',{$cond: [{$gt: ["$date",(new Date()/1000)-604800]},'Il y a 7 jours','Il y a plus de 7 jours']}]}]}]}]}]}]}, total: { $sum: 1} } },
-	{ $out: "Data7Jours" }
-])
-
-
+var currentdate = new Date()
 																																																																																			
 db.data.aggregate([
 	{ $match: { date: { $gt: (currentdate/1000) - 604800, $lt: (currentdate/1000)} } },
@@ -144,6 +136,15 @@ db.data.aggregate([
 	{ $sort: { _id: -1 } },
 	{ $out: "Data7Jours" }
 ])																												
+
+
+db.data.aggregate([
+	{ $project: { _id: 0, participants: 1, date: 1} },
+	{ $match: { date: { $gt: (currentdate/1000) - 604800, $lt: (currentdate/1000)} } },
+	{ $unwind: "$participants" },
+	{ $group: { _id: { $cond: [ {$gt: ["$date",(currentdate/1000)-86400]},'1 jour', {$cond: [{$gt: ["$date",(currentdate/1000)-172800]},'2 jours',{ $cond: [{$gt:["$date",(currentdate/1000)-259200]},'3 jours',{$cond: [{$gt: ["$date",(currentdate/1000)-345600]},'4 jours',{$cond: [{$gt: ["$date",(currentdate/1000)-432000]},'5 jours',{$cond: [{$gt: ["$date",(currentdate/1000)-518400]},'6 jours',{$cond: [{$gt: ["$date",(currentdate/1000)-604800]},'7 jours','plus de 7 jours']}]}]}]}]}]}]}, totalPartie: { $sum: 1}, totalDamageDealt: { $sum: "$participants.stats.totalDamageDealt" }, totalDamageDealtToChampions: { $sum: "$participants.stats.totalDamageDealtToChampions" }, totalDamageTaken: { $sum: "$participants.stats.totalDamageTaken" }, totaldeaths: { $sum: "$participants.stats.deaths" }, totalkills: { $sum: "$participants.stats.kills" }, totalgoldEarned: { $sum: "$participants.stats.goldEarned" } } },
+	{ $out: "Data7Joursgold" }
+])
 
 //Nombre de games par type de partie
 db.data.aggregate([
