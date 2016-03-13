@@ -44,12 +44,12 @@ app.controller('LoLiTCtrlPart3', ['$scope', '$rootScope', '$http', function($sco
         $scope.barchart2 = {
             chart: {
                 type: 'discreteBarChart',
-                height: 550,
-                width: 1100,
+                height: 750,
+                width: 1000,
                 margin : {
                     top: 20,
-                    right: 20,
-                    bottom: 50,
+                    right: 100,
+                    bottom: 250,
                     left: 150
                 },
                 x: function(d){return d.id;},
@@ -60,7 +60,13 @@ app.controller('LoLiTCtrlPart3', ['$scope', '$rootScope', '$http', function($sco
                 },
                 duration: 500,
                 xAxis: {
-                    axisLabel: 'Types de parties'
+                    axisLabel: '',
+                    rotateLabels: 50,
+                      margin: {   
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        left: -100}
                 },
                 yAxis: {
                     axisLabel: 'Nombre de parties jouées',
