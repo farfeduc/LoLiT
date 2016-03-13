@@ -147,7 +147,8 @@ db.data.aggregate([
 db.data.aggregate([
 	{ $project: { _id: 0, participants: 1, date: 1} },
 	{ $match: { date: { $gt: (currentdate/1000) - 604800, $lt: (currentdate/1000)} } },
-	{ $group: { _id: { $cond: [ {$gt: ["$date",(currentdate/1000)-86400]},'1 jour', {$cond: [{$gt: ["$date",(currentdate/1000)-172800]},'2 jours',{ $cond: [{$gt:["$date",(currentdate/1000)-259200]},'3 jours',{$cond: [{$gt: ["$date",(currentdate/1000)-345600]},'4 jours',{$cond: [{$gt: ["$date",(currentdate/1000)-432000]},'5 jours',{$cond: [{$gt: ["$date",(currentdate/1000)-518400]},'6 jours',{$cond: [{$gt: ["$date",(currentdate/1000)-604800]},'7 jours','plus de 7 jours']}]}]}]}]}]}]}, totalPartie: { $sum: 1}, totalDegats: { $sum: { "$participants.stats.totalDamageDealt"}} } },
+	{ $unwind: "$participants" },
+	{ $group: { _id: { $cond: [ {$gt: ["$date",(currentdate/1000)-86400]},'1 jour', {$cond: [{$gt: ["$date",(currentdate/1000)-172800]},'2 jours',{ $cond: [{$gt:["$date",(currentdate/1000)-259200]},'3 jours',{$cond: [{$gt: ["$date",(currentdate/1000)-345600]},'4 jours',{$cond: [{$gt: ["$date",(currentdate/1000)-432000]},'5 jours',{$cond: [{$gt: ["$date",(currentdate/1000)-518400]},'6 jours',{$cond: [{$gt: ["$date",(currentdate/1000)-604800]},'7 jours','plus de 7 jours']}]}]}]}]}]}]}, totalPartie: { $sum: 1}, totalDamageDealt: { $sum: "$participants.stats.totalDamageDealt" }, totalDamageDealtToChampions: { $sum: "$participants.stats.totalDamageDealtToChampions" }, totalDamageTaken: { $sum: "$participants.stats.totalDamageTaken" }, totaldeaths: { $sum: "$participants.stats.deaths" }, totalkills: { $sum: "$participants.stats.kills" }, totalgoldEarned: { $sum: "$participants.stats.goldEarned" } } },
 	{ $out: "Data7Jours" }
 ])
 
